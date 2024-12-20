@@ -40,12 +40,15 @@ namespace WinFormThreads
 			{
 				delete components;
 			}
+
+			myController->StopThread();
 		}
 	private: System::Windows::Forms::Button^  UI_BTN_START_THREAD;
 	protected: 
 	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::Button^  UI_BTN_STOP_THREAD;
 	private: System::Windows::Forms::Label^  statusLabel;
+
 
 	private:
 		/// <summary>
@@ -62,8 +65,8 @@ namespace WinFormThreads
 		{
 			this->UI_BTN_START_THREAD = (gcnew System::Windows::Forms::Button());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
-			this->UI_BTN_STOP_THREAD = (gcnew System::Windows::Forms::Button());
 			this->statusLabel = (gcnew System::Windows::Forms::Label());
+			this->UI_BTN_STOP_THREAD = (gcnew System::Windows::Forms::Button());
 			this->groupBox1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -82,7 +85,7 @@ namespace WinFormThreads
 			this->groupBox1->Controls->Add(this->statusLabel);
 			this->groupBox1->Controls->Add(this->UI_BTN_STOP_THREAD);
 			this->groupBox1->Controls->Add(this->UI_BTN_START_THREAD);
-			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
+			this->groupBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 12, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->groupBox1->Location = System::Drawing::Point(128, 12);
 			this->groupBox1->Name = L"groupBox1";
@@ -90,6 +93,15 @@ namespace WinFormThreads
 			this->groupBox1->TabIndex = 1;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"THREAD OPERATIONS";
+			// 
+			// statusLabel
+			// 
+			this->statusLabel->AutoSize = true;
+			this->statusLabel->Location = System::Drawing::Point(110, 53);
+			this->statusLabel->Name = L"statusLabel";
+			this->statusLabel->Size = System::Drawing::Size(108, 20);
+			this->statusLabel->TabIndex = 2;
+			this->statusLabel->Text = L"...STATUS...";
 			// 
 			// UI_BTN_STOP_THREAD
 			// 
@@ -100,15 +112,6 @@ namespace WinFormThreads
 			this->UI_BTN_STOP_THREAD->Text = L"STOP";
 			this->UI_BTN_STOP_THREAD->UseVisualStyleBackColor = true;
 			this->UI_BTN_STOP_THREAD->Click += gcnew System::EventHandler(this, &Form1::UI_BTN_STOP_THREAD_Click);
-			// 
-			// statusLabel
-			// 
-			this->statusLabel->AutoSize = true;
-			this->statusLabel->Location = System::Drawing::Point(110, 53);
-			this->statusLabel->Name = L"statusLabel";
-			this->statusLabel->Size = System::Drawing::Size(108, 20);
-			this->statusLabel->TabIndex = 2;
-			this->statusLabel->Text = L"...STATUS...";
 			// 
 			// Form1
 			// 
@@ -127,7 +130,7 @@ namespace WinFormThreads
 	private: System::Void UI_BTN_START_THREAD_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 myController->SetNumber(42);
-				 myController->StartThread(gcnew Action<Object^>(myController, &MyController::ThreadFunction));
+				 myController->StartThread(gcnew Action<Object^>(myController, &MyController::ThreadFunction), "TEST THREAD");
 			 }
 	private: System::Void UI_BTN_STOP_THREAD_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {

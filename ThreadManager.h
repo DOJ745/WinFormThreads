@@ -6,20 +6,24 @@ using namespace System;
 using namespace System::Threading;
 using namespace System::Diagnostics;
 
-public ref class ThreadManager : public IThreadMethods
+public ref class ThreadManager : public	IThreadMethods
 {
 public:
-	EventHandler^ m_ThreadCompleted; // Событие о завершении выполнении потока
+	EventHandler^ m_ThreadCompleted;	// Событие о завершении выполнении потока
 
 private:
-	Thread^ m_WorkerThread;
+	Thread^ m_WorkerThread;				// Объект для создания потока
 	ManualResetEvent^ m_StopEvent;		// Событие для остановки потока
 	Action<Object^>^ m_ThreadFunction;	// Делегат для функции потока
+	String^ m_ThreadName;				// Имя потока
 
 public:
-	ThreadManager(): m_StopEvent(gcnew ManualResetEvent(false)) {};
+	ThreadManager(): 
+		m_StopEvent(gcnew ManualResetEvent(false))
+		, m_ThreadName("My Thread")
+	{};
 
-	~ThreadManager()
+	virtual ~ThreadManager()
 	{
 		Stop();
 	}
@@ -29,14 +33,12 @@ public:
 		return m_StopEvent->WaitOne(0); // Проверяем, установлен ли сигнал
 	}
 
-	virtual void Start(ThreadParams params, Action<Object^>^ threadFunc);
+	virtual void Start(ThreadParams params, Action<Object^>^ threadFunc, System::String^ threadName);
 
 	virtual void Stop();
 
-	virtual void RunThread(Object^ param);
-
 private:
-	//virtual void RunThread(Object^ param);
+	virtual void RunThread(Object^ param);
 
 	void OnThreadCompleted() 
 	{

@@ -3,5 +3,5 @@
 public value struct ThreadParams 
 {
 	int data; // Данные для работы в потоке
-	System::String message;
+	System::String^ message;
 };

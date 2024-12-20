@@ -14,16 +14,16 @@ public:
 		, m_ThreadManager(gcnew ThreadManager())
 	{};
 
-	virtual ~MyController() 
+	~MyController() 
 	{
 		StopThread();
 	};
 
-	void StartThread(Action<Object^>^ function) 
+	void StartThread(Action<Object^>^ function, System::String^ threadName) 
 	{
 		ThreadParams params;
 		params.data = m_Number;
-		m_ThreadManager->Start(params, function);
+		m_ThreadManager->Start(params, function, threadName);
 	};
 
 	void StopThread() 

@@ -10,7 +10,7 @@ void MyController::ThreadFunction(Object^ param)
 	while (!m_ThreadManager->ShouldStop() && temp <= 5) 
 	{
 		temp++;
-		Thread::Sleep(1000); // Имитация работы
+		Thread::Sleep(1000);
 		Debug::WriteLine("Поток работает с числом: {0} {1} секунд...", params.data, temp);
 	}
 

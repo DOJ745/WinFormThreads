@@ -4,8 +4,7 @@
 public interface class IThreadMethods
 {
 public:
-	void Start(ThreadParams params, System::Action<Object^>^ threadFunc);
+	void Start(ThreadParams params, System::Action<Object^>^ threadFunc, System::String^ threadName);
 	void Stop();
-	void RunThread(Object^ param);
 };
 

@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "ThreadManager.h"
 
-void ThreadManager::Start(ThreadParams params, Action<Object^>^ threadFunc) 
+void ThreadManager::Start(ThreadParams params, Action<Object^>^ threadFunc, System::String^ threadName) 
 {
 	if (m_WorkerThread != nullptr && m_WorkerThread->IsAlive) 
 	{
@@ -12,7 +12,10 @@ void ThreadManager::Start(ThreadParams params, Action<Object^>^ threadFunc)
 	m_ThreadFunction = threadFunc; // Сохраняем переданную функцию
 	m_StopEvent->Reset();          // Сбрасываем сигнал остановки
 	m_WorkerThread = gcnew Thread(gcnew ParameterizedThreadStart(this, &ThreadManager::RunThread));
-	m_WorkerThread->Name = "Test Thread " + params.data;
+	
+	m_ThreadName = threadName;
+	m_WorkerThread->Name = m_ThreadName;
+	
 	m_WorkerThread->Start(params);
 }
 
@@ -20,7 +23,7 @@ void ThreadManager::Stop()
 {
 	if (m_WorkerThread != nullptr && m_WorkerThread->IsAlive) 
 	{
-		m_StopEvent->Set(); // Устанавливаем сигнал остановки
+		m_StopEvent->Set();		// Устанавливаем сигнал остановки
 		m_WorkerThread->Join(); // Ожидаем завершения потока
 		Debug::WriteLine("Поток успешно остановлен по кнопке.");
 	}
